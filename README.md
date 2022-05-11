@@ -8,21 +8,58 @@ The calculation for AOV is revenue/the number of orders. User 607, who ordered 1
 
 Question 2: For this question, you’ll need to use SQL. Follow this link to access the data set required for the challenge. Please use queries to answer the following questions. Paste your queries along with your final numerical answers below.
 
-How many orders were shipped by Speedy Express in total?
-Speedy Express shipped 54 orders
-After joining the Shippers and Orders tables, which would show which orders were shipped by specific shipping companies, I selected the count of orders shipped by Speedy Express
+1. How many orders were shipped by Speedy Express in total?
+
+Speedy Express shipped 54 orders.
+After joining the Shippers and Orders tables, which would show which orders were shipped by specific shipping companies, I selected the count of orders shipped by Speedy Express.
 
 
 SELECT Count(*) FROM Shippers
+
 JOIN Orders
+
 ON Shippers.ShipperID = Orders.ShipperID
+
 WHERE Shippers.ShipperName = "Speedy Express";
 
-What is the last name of the employee with the most orders?
-The Last name of the employee with the most orders is Peacock, with 40 orders
+2. What is the last name of the employee with the most orders?
+
+The Last name of the employee with the most orders is Peacock, with 40 orders.
 By joining the Employees and Orders tables, I was able to see which employees made which orders, which I grouped by the last name, and displayed in descending order.
 
 
 SELECT Count(*) AS Count, LastName From Employees
+
 JOIN Orders
+
 On Employees.EmployeeID = Orders.EmployeeID
+
+GROUP BY LastName
+
+ORDER BY Count DESC;
+
+
+3. What product was ordered the most by customers in Germany?
+
+Gorgonzola Telino was the most ordered product by customers in Germany.
+Three tables had to be joined so that I could view the product names of orders that were placed by customers in Germany, which I then grouped by the ProductName and displayed in descending order.
+
+SELECT ProductName, Count(ProductName) AS num FROM Products
+
+JOIN OrderDetails
+
+ON Products.ProductID = OrderDetails.ProductID
+
+JOIN Orders
+
+ON OrderDetails.OrderID = Orders.OrderID
+
+JOIN Customers
+
+ON Customers.CustomerID = Orders.CustomerID
+
+WHERE Country='Germany'
+
+Group BY ProductName
+
+ORDER BY num DESC;
